@@ -1,3 +1,8 @@
+//! # The Scripting Library
+//!
+//! The Scripting Library provides functions to facilitate scripting
+//! in Rust Llanguage.
+
 #[macro_use]
 extern crate slog;
 extern crate slog_term;
@@ -5,6 +10,9 @@ extern crate slog_term;
 use slog::DrainExt;
 use std::process::{Command, Output};
 
+/// Runs a given command and return a Result holding an Output struct
+///
+/// TODO: examples
 pub fn run_cmd(cmd: &mut Vec<String>) -> Result<Output, std::io::Error> {
     let log = slog::Logger::root(slog_term::streamer().full().build().fuse(), o!("version" => env!("CARGO_PKG_VERSION")));
 
