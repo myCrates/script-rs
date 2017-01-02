@@ -21,12 +21,11 @@ pub fn run_cmd(cmd: &mut Vec<String>) -> Result<Output, std::io::Error> {
 #[cfg(test)]
 mod tests_run_cmd {
     use super::run_cmd;
-    use std::env;
 
     #[test]
     fn success_output() {
-        let mut cmd = vec!["pwd".to_string()];
-        let exp = env::var("PWD").unwrap().to_string() + "\n";
+        let mut cmd = vec!["echo".to_string(), "hello".to_string()];
+        let exp = "hello\n";
         let res = run_cmd(&mut cmd).unwrap();
         let stdout = String::from_utf8(res.stdout).unwrap();
         assert_eq!(exp, stdout);
@@ -34,7 +33,7 @@ mod tests_run_cmd {
 
     #[test]
     fn success_return_code() {
-        let mut cmd = vec!["pwd".to_string()];
+        let mut cmd = vec!["echo".to_string()];
         let res = run_cmd(&mut cmd).unwrap();
         assert_eq!(true, res.status.success());
     }
