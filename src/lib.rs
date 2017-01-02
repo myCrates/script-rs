@@ -19,12 +19,12 @@ pub fn run_cmd(cmd: &mut Vec<String>) -> Result<Output, std::io::Error> {
 }
 
 #[cfg(test)]
-mod tests {
+mod tests_run_cmd {
     use super::run_cmd;
     use std::env;
 
     #[test]
-    fn run_cmd_success_output() {
+    fn success_output() {
         let mut cmd = vec!["pwd".to_string()];
         let exp = env::var("PWD").unwrap().to_string() + "\n";
         let res = run_cmd(&mut cmd).unwrap();
@@ -33,7 +33,7 @@ mod tests {
     }
 
     #[test]
-    fn run_cmd_success_return_code() {
+    fn success_return_code() {
         let mut cmd = vec!["pwd".to_string()];
         let res = run_cmd(&mut cmd).unwrap();
         assert_eq!(true, res.status.success());
@@ -41,9 +41,16 @@ mod tests {
 
     #[test]
     #[should_panic(expected = "No such file or directory")]
-    fn run_cmd_failure_return_code() {
+    fn failure_cmd_absent() {
         let mut cmd = vec!["blabla".to_string()];
         let res = run_cmd(&mut cmd);
         assert_eq!(false, res.unwrap().status.success());
+    }
+
+    #[test]
+    fn failure_return_code() {
+        let mut cmd = vec!["cp".to_string()];
+        let res = run_cmd(&mut cmd).unwrap();
+        assert_eq!(false, res.status.success());
     }
 }
